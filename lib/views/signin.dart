@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class signin extends StatefulWidget {
-  const signin({Key? key}) : super(key: key);
 
+  final Function toggle;
+ // const signin({Key? key, required this.toggle}) : super(key: key);
+    signin(this.toggle);
   @override
   _signinState createState() => _signinState();
 }
@@ -79,12 +81,20 @@ class _signinState extends State<signin> {
                 mainAxisAlignment: MainAxisAlignment.center,
                   children:[
                     Text("Don't have account? ",style: MediumTextStyle(),),
-                    Text("Register now",style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      decoration: TextDecoration.underline
+                    GestureDetector(
+                      onTap: (){
+                        widget.toggle();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical:17),
+                        child: Text("Register now",style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          decoration: TextDecoration.underline
+                        )
+                        ,),
+                      ),
                     )
-                    ,)
                     ]
                   ),
               SizedBox(height: 50,),
