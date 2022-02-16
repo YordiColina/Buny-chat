@@ -4,7 +4,9 @@ import 'package:buny_chat/widget.dart';
 import'package:flutter/material.dart';
 
 class signup extends StatefulWidget {
-  const signup({Key? key}) : super(key: key);
+  final Function toggle;
+  //const signup({Key? key}) : super(key: key);
+  signup(this.toggle);
 
   @override
   _signupState createState() => _signupState();
@@ -136,12 +138,20 @@ class _signupState extends State<signup> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children:[
                       Text("Already have account? ",style: MediumTextStyle(),),
-                      Text("SignIn now",style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          decoration: TextDecoration.underline
+                      GestureDetector(
+                        onTap: (){
+                          widget.toggle();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Text("SignIn now",style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              decoration: TextDecoration.underline
+                          )
+                            ,),
+                        ),
                       )
-                        ,)
                     ]
                 ),
                 SizedBox(height: 50,),

@@ -1,7 +1,8 @@
-import 'package:buny_chat/views/signin.dart';
-import 'package:buny_chat/views/signup.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'helper/authenticate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: signup(),
+      home: Authenticate(),
 
     );
   }

@@ -1,8 +1,12 @@
 
 
 import 'package:buny_chat/services/auth.dart';
-import 'package:buny_chat/views/signin.dart';
+import 'package:buny_chat/views/search.dart';
+
 import 'package:flutter/material.dart';
+
+import '../helper/authenticate.dart';
+
 
 class chatRoom extends StatefulWidget {
  // const chatRoom({Key? key}) : super(key: key);
@@ -23,8 +27,8 @@ class _chatRoomState extends State<chatRoom> {
               GestureDetector(
                 onTap: (){
                    authMethods.signOut();
-                   //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>signin())
-                  // );
+                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Authenticate())
+                   );
                     },
                 child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -32,6 +36,13 @@ class _chatRoomState extends State<chatRoom> {
               )
             ],
         ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen())
+          );
+        },
+        child: Icon(Icons.search),
+      ),
     );
   }
 }
