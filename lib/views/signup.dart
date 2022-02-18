@@ -1,6 +1,7 @@
 import 'package:buny_chat/services/auth.dart';
 import 'package:buny_chat/views/chatRoomScreen.dart';
 import 'package:buny_chat/widget.dart';
+import 'package:buny_chat/services/database.dart';
 import'package:flutter/material.dart';
 
 class signup extends StatefulWidget {
@@ -15,7 +16,7 @@ class signup extends StatefulWidget {
 class _signupState extends State<signup> {
 
   bool isLoading=false;
-
+  DatabaseMethods databaseMethods= new DatabaseMethods();
   AuthMethods authMethods=new AuthMethods();
   final formkey=GlobalKey<FormState>();
 
@@ -30,6 +31,13 @@ class _signupState extends State<signup> {
       });
        authMethods.signUpwhitEmailAndPassword(emailController.text, passwordController.text).then((val) {
         //print("${val.Uid}");
+         Map<String,String> userInfoMap={
+           "name" : usernameController.text,
+           "email": emailController.text
+         };
+
+
+       databaseMethods.uploadUserInfo(userInfoMap);
         Navigator.pushReplacement(context, MaterialPageRoute(builder:(contex)=>chatRoom()));
         });
     }

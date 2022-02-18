@@ -1,13 +1,29 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-class DatabaseMethods{
+class DatabaseMethods {
 
-  getUserByUsername(String Username){
+ Future getUserByUsername(String Username) async {
+    List datos = [];
+   CollectionReference users = FirebaseFirestore.instance.collection('users');
+     QuerySnapshot result = await users.where("name", isEqualTo: Username).get();
+   return result;
+
+    }
+
+    uploadUserInfo(userMap) {
+      CollectionReference usuarios = FirebaseFirestore.instance.collection(
+          'users');
+      usuarios.add(userMap);
+    }
+
+   createChatRoom(String chatRoomId, chatRoomMap)async{
+      CollectionReference chat = FirebaseFirestore.instance.collection('ChatRoom');
+      chat.doc(chatRoomId).set(chatRoomMap);
+    }
+
+
+
+
 
   }
-  uploadUserInfo(String name,String email){
-
-
-  }
-
-
-}
