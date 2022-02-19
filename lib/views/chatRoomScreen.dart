@@ -6,6 +6,8 @@ import 'package:buny_chat/views/search.dart';
 import 'package:flutter/material.dart';
 
 import '../helper/authenticate.dart';
+import '../helper/constants.dart';
+import '../helper/helperfunctions.dart';
 
 
 class chatRoom extends StatefulWidget {
@@ -17,6 +19,21 @@ class chatRoom extends StatefulWidget {
 
 class _chatRoomState extends State<chatRoom> {
   AuthMethods authMethods= new AuthMethods();
+  @override
+  void initState() {
+        getUserInfo();
+    super.initState();
+  }
+  getUserInfo()async{
+    Constants.myName= (await HelperFunctions.getUserNameloggedlocalInfo())!;
+    setState(() {
+
+    });
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,4 +1,6 @@
 
+import 'package:buny_chat/helper/helperfunctions.dart';
+import 'package:buny_chat/views/chatRoomScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -12,9 +14,28 @@ void main() async {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+   bool userIsLoggedIn= false;
+  @override
+  void initState() {
+    getLoggedInState();
+    super.initState();
+  }
+  getLoggedInState()async{
+    await HelperFunctions.getUserLoggedInSharedPreference().then((value) {
+      setState(() {
+        userIsLoggedIn=value!;
+      });
+
+    });
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -27,9 +48,12 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: Authenticate(),
+      home:userIsLoggedIn ?chatRoom(): Authenticate()
+
 
     );
   }
 }
+
+
 

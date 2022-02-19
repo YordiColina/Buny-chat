@@ -11,6 +11,15 @@ class DatabaseMethods {
 
     }
 
+ Future getUserByUserEmail(String UserEmail) async {
+   List datos = [];
+   CollectionReference users = FirebaseFirestore.instance.collection('users');
+   QuerySnapshot result = await users.where("email", isEqualTo: UserEmail).get();
+   return result;
+
+ }
+
+
     uploadUserInfo(userMap) {
       CollectionReference usuarios = FirebaseFirestore.instance.collection(
           'users');

@@ -1,8 +1,12 @@
+
+
 import 'package:buny_chat/services/auth.dart';
 import 'package:buny_chat/views/chatRoomScreen.dart';
 import 'package:buny_chat/widget.dart';
 import 'package:buny_chat/services/database.dart';
 import'package:flutter/material.dart';
+
+import '../helper/helperfunctions.dart';
 
 class signup extends StatefulWidget {
   final Function toggle;
@@ -36,8 +40,12 @@ class _signupState extends State<signup> {
            "email": emailController.text
          };
 
+         HelperFunctions.saveUserNameloggedlocalInfo(usernameController.text);
+         HelperFunctions.saveUserEmailloggedlocalInfo(emailController.text);
+
 
        databaseMethods.uploadUserInfo(userInfoMap);
+         HelperFunctions.saveUserloggedlocalInfo(true);
         Navigator.pushReplacement(context, MaterialPageRoute(builder:(contex)=>chatRoom()));
         });
     }

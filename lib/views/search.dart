@@ -1,13 +1,12 @@
 
-import 'dart:ui';
 
+import 'package:buny_chat/helper/constants.dart';
 import 'package:buny_chat/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import'package:flutter/material.dart';
-
-
-
+import '../helper/helperfunctions.dart';
 import '../services/database.dart';
+import 'conversationScreen.dart';
 
     class SearchScreen extends StatefulWidget {
       const SearchScreen({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ import '../services/database.dart';
       @override
       _SearchScreenState createState() => _SearchScreenState();
     }
-
+ String _myName="";
     class _SearchScreenState extends State<SearchScreen> {
 
       DatabaseMethods databaseMethods=new DatabaseMethods();
@@ -34,13 +33,6 @@ import '../services/database.dart';
 
             });
             }
-/// creacion de sala de chat
-
-      roomToStartConversation(String username){
-      List<String> users=[username,];
-      databaseMethods.createChatRoom(chatRoomId, chatRoomMap)
-
-      }
 
 
 //////////////////////////////////////////////////////////////////
@@ -59,12 +51,79 @@ import '../services/database.dart';
               }) : Container();
 
       }
+
+      /// creacion de sala de chat
+
+      roomToStartConversation( {required String username}){
+       if (username !=Constants.myName){
+         String chatRoomId= getChatRoomId(username, Constants.myName);
+         List<String> users=[username,Constants.myName];
+         Map<String,dynamic> chatRoomMap={
+           "users": users,
+           "chatRoomId": chatRoomId
+         };
+         DatabaseMethods().createChatRoom(chatRoomId, chatRoomMap);
+         Navigator.push(context, MaterialPageRoute(
+             builder: (context)=> ConversationScreen()
+         ));
+       }else
+         {
+           print("you cannot send message to yourself");
+         }
+
+      }
+
+      Widget SearchTile({ required String username,
+      required String userEmail}){
+        return Container(
+            padding: EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment:CrossAxisAlignment.start ,
+                  children: [
+                    Text(username,style: MediumTextStyle(),),
+                    Text(userEmail,style: MediumTextStyle(),),
+                  ],
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: (){
+                      roomToStartConversation(username: username);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(25)
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+                    child: Text("Message",style: MediumTextStyle(),),
+
+                  ),
+                ),
+
+              ],
+            )
+
+        );
+
+    }
       
       @override
   void initState() {
-
+getUserInfo();
     super.initState();
   }
+
+  getUserInfo()async{
+        _myName=(await HelperFunctions.getUserNameloggedlocalInfo())! ;
+        setState(() {
+
+        });
+  }
+
+
+
       @override
       Widget build(BuildContext context) {
         return Scaffold(
@@ -127,45 +186,18 @@ import '../services/database.dart';
       }
     }
 
-    class SearchTile extends StatelessWidget{
-      final String username;
-      final String userEmail;
-      SearchTile({required this.username,required this.userEmail});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 16,horizontal: 24),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment:CrossAxisAlignment.start ,
-            children: [
-              Text(username,style: MediumTextStyle(),),
-              Text(userEmail,style: MediumTextStyle(),),
-            ],
-          ),
-          Spacer(),
-          GestureDetector(
-            onTap: (){
 
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(25)
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-              child: Text("Message",style: MediumTextStyle(),),
 
-            ),
-          ),
 
-        ],
-      )
 
-    );
 
-  }
+
+    getChatRoomId(String a, String b){
+      if(a.substring(0,1).codeUnitAt(0)>b.substring(0,1).codeUnitAt(0)){
+        return "$b\_$a";
+      }else{
+        return "$a\_$b";
+      }
 
     }
