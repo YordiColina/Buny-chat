@@ -28,6 +28,7 @@ import 'conversationScreen.dart';
               print(val.toString());
             setState(() {
               resultSearch=val;
+              print(resultSearch!.docs.first.get("name").toString());
             });
 
 
@@ -56,8 +57,10 @@ import 'conversationScreen.dart';
 
       roomToStartConversation( {required String username}){
        if (username !=Constants.myName){
-         String chatRoomId= getChatRoomId(username, Constants.myName);
-         List<String> users=[username,Constants.myName];
+         print("$username "+"$_myName");
+         String chatRoomId= getChatRoomId(username, _myName);
+
+         List<String> users=[username,_myName];
          Map<String,dynamic> chatRoomMap={
            "users": users,
            "chatRoomId": chatRoomId
@@ -108,10 +111,19 @@ import 'conversationScreen.dart';
         );
 
     }
+
+      getChatRoomId(String a, String b) {
+        print(a+b);
+        if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+          return "$b\_$a";
+        } else {
+          return "$a\_$b";
+        }
+      }
       
       @override
   void initState() {
-getUserInfo();
+    getUserInfo();
     super.initState();
   }
 
@@ -120,6 +132,7 @@ getUserInfo();
         setState(() {
 
         });
+        print(_myName+"este no es manin");
   }
 
 
@@ -193,11 +206,5 @@ getUserInfo();
 
 
 
-    getChatRoomId(String a, String b){
-      if(a.substring(0,1).codeUnitAt(0)>b.substring(0,1).codeUnitAt(0)){
-        return "$b\_$a";
-      }else{
-        return "$a\_$b";
-      }
 
-    }
+

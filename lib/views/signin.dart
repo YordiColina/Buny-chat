@@ -33,7 +33,7 @@ class _signinState extends State<signin> {
       databaseMethods.getUserByUserEmail(emailController.text).then((val){
         snapshotUserInfo=val;
         HelperFunctions.saveUserNameloggedlocalInfo(snapshotUserInfo?.docs[0].get("name"));
-        print("${snapshotUserInfo?.docs[0].get("name").toString()}");
+
       });
       setState(() {
         isloading=true;

@@ -15,12 +15,12 @@ static Future<bool> saveUserloggedlocalInfo(bool isUserloggedIn)async {
 
   static Future<bool> saveUserNameloggedlocalInfo(String username)async {
     final prefs = await SharedPreferences.getInstance();
-    return await prefs.setString(sharedPreferenceUserloggedKey, username);
+    return await prefs.setString(sharedPreferenceNameKey, username);
   }
 
   static Future<bool> saveUserEmailloggedlocalInfo(String userEmail)async {
     final prefs = await SharedPreferences.getInstance();
-    return await prefs.setString(sharedPreferenceUserloggedKey, userEmail);
+    return await prefs.setString(sharedpreferenceEmailKey, userEmail);
   }
 
 //obtener datos de shared preference
@@ -32,12 +32,12 @@ static Future<bool?>getUserLoggedInSharedPreference()async{
 
   static Future<String?> getUserNameloggedlocalInfo()async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(sharedPreferenceUserloggedKey) ;
+    return prefs.getString(sharedPreferenceNameKey) ;
   }
 
   static Future<String> getUserEmailloggedlocalInfo()async {
     final prefs = await SharedPreferences.getInstance();
-    return  prefs.getString(sharedPreferenceUserloggedKey)!;
+    return  prefs.getString(sharedpreferenceEmailKey)!;
   }
 
 }
