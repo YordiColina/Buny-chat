@@ -57,7 +57,7 @@ import 'conversationScreen.dart';
 
       roomToStartConversation( {required String username}){
        if (username !=Constants.myName){
-         print("$username "+"$_myName");
+
          String chatRoomId= getChatRoomId(username, _myName);
 
          List<String> users=[username,_myName];
@@ -67,7 +67,7 @@ import 'conversationScreen.dart';
          };
          DatabaseMethods().createChatRoom(chatRoomId, chatRoomMap);
          Navigator.push(context, MaterialPageRoute(
-             builder: (context)=> ConversationScreen()
+             builder: (context)=> ConversationScreen(chatroomId: chatRoomId,)
          ));
        }else
          {
@@ -132,7 +132,7 @@ import 'conversationScreen.dart';
         setState(() {
 
         });
-        print(_myName+"este no es manin");
+
   }
 
 

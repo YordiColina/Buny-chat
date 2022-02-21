@@ -31,8 +31,16 @@ class DatabaseMethods {
       chat.doc(chatRoomId).set(chatRoomMap);
     }
 
+     addConversationsMesssages( String RoomId,messsageMap){
+       CollectionReference messagesInstance = FirebaseFirestore.instance.collection('ChatRoom');
+       messagesInstance.doc("chatRoomId").collection("chats").add(messsageMap);
+     }
+
+      getConversationsMesssages( String RoomId){
+       CollectionReference messagesInstance = FirebaseFirestore.instance.collection('ChatRoom');
+       messagesInstance.doc("chatRoomId").collection("chats").snapshots();
+       }
 
 
 
-
-  }
+}
