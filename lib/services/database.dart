@@ -36,9 +36,9 @@ class DatabaseMethods {
        messagesInstance.doc("chatRoomId").collection("chats").add(messsageMap);
      }
 
-      getConversationsMesssages( String RoomId){
-       CollectionReference messagesInstance = FirebaseFirestore.instance.collection('ChatRoom');
-       messagesInstance.doc("chatRoomId").collection("chats").snapshots();
+      getConversationsMesssages( String RoomId) async {
+       CollectionReference messagesInstance = await FirebaseFirestore.instance.collection('ChatRoom');
+       return messagesInstance.doc("chatRoomId").collection("chats").snapshots();
        }
 
 

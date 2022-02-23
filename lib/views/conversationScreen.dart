@@ -1,5 +1,6 @@
 import 'package:buny_chat/helper/constants.dart';
 import 'package:buny_chat/widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../services/database.dart';
@@ -13,25 +14,27 @@ class ConversationScreen extends StatefulWidget {
   @override
   _ConversationScreenState createState() => _ConversationScreenState();
 }
-var data;
+   Stream<QuerySnapshot>? chats;
+    var data;
 class _ConversationScreenState extends State<ConversationScreen> {
   DatabaseMethods databaseMethods= new DatabaseMethods();
   TextEditingController messageController= new TextEditingController();
   Widget ChatMessageList( ) {
     return StreamBuilder(
-      stream: chatMessageStream,
+      stream: chats,
         builder: (context, snapshot) {
+          data = snapshot.data!;
           return snapshot.hasData ? ListView.builder(
-              itemCount: snapshot.requireData
-                  .toString()
-                  .length, itemBuilder: (context, index) {
-            data = snapshot.data;
+
+              itemCount: data!.docs.length,
+              itemBuilder: (context, index) {
+                  print(data.docs[index]['message'].toString());
             return MessageTile(
 
-              message: data!['location'] as String,
+              message:data.docs[0]['message'].toString(),
 
 
-              sendByMe:  Constants.myName == data!['sendBy'] as String,
+              sendByMe:  Constants.myName == data?.docs[0]['sendby'].toString(),
             );
 
           }) : Container();
@@ -41,7 +44,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   
       }
 
-  Stream? chatMessageStream;
+  //Stream? chatMessageStream;
      sendMessage(){
        if(messageController.text.isNotEmpty) {
          Map<String, String> messageMap = {
@@ -57,7 +60,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   void initState() {
       databaseMethods.getConversationsMesssages(widget.chatroomId).then((value){
       setState(() {
-        chatMessageStream=value;
+        chats=value;
       });
       });
   }
@@ -70,6 +73,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       body: Container(
         child: Stack(
           children: [
+            ChatMessageList(),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
