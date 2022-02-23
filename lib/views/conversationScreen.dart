@@ -47,13 +47,18 @@ class _ConversationScreenState extends State<ConversationScreen> {
   //Stream? chatMessageStream;
      sendMessage(){
        if(messageController.text.isNotEmpty) {
-         Map<String, String> messageMap = {
+         Map<String,dynamic> messageMap = {
+
            "message": messageController.text,
-           "sendby": Constants.myName
+           "sendby": Constants.myName,
+            "time":DateTime.now().millisecondsSinceEpoch
 
 
          };
          databaseMethods.addConversationsMesssages(widget.chatroomId,messageMap );
+         setState(() {
+           messageController.text = "";
+         });
        }
   }
   @override

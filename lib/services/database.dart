@@ -38,7 +38,7 @@ class DatabaseMethods {
 
       getConversationsMesssages( String RoomId) async {
        CollectionReference messagesInstance = await FirebaseFirestore.instance.collection('ChatRoom');
-       return messagesInstance.doc("chatRoomId").collection("chats").snapshots();
+       return messagesInstance.doc("chatRoomId").collection("chats").orderBy("time",descending: true).snapshots();
        }
 
 
